@@ -21,6 +21,9 @@ const MAX_TEAMS = 3;
 const MAX_ANSWERS = 8;
 const MAX_UNDO = 40;
 const DEFAULT_NAMES = ['The Legends', 'The Underdogs', 'The Wildcards'];
+// --open (used by the double-click launcher) opens the big screen in the
+// default browser once the server is up.
+const OPEN_BROWSER = process.argv.includes('--open');
 
 // ---------------------------------------------------------------- questions
 
@@ -588,7 +591,25 @@ io.on('connection', (socket) => {
   });
 });
 
+function openInBrowser(url) {
+  const { spawn } = require('child_process');
+  const cmd = process.platform === 'win32' ? 'explorer.exe'
+    : process.platform === 'darwin' ? 'open' : 'xdg-open';
+  try {
+    spawn(cmd, [url], { detached: true, stdio: 'ignore' }).on('error', () => {}).unref();
+  } catch (_) { /* the URLs are printed anyway */ }
+}
+
 server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE' && OPEN_BROWSER) {
+    // Launcher clicked twice: the game is already up, so just show it again.
+    console.log(`
+  Friends Feuuud is already running. Opening the big screen.
+`);
+    openInBrowser(`http://localhost:${PORT}/`);
+    setTimeout(() => process.exit(0), 500);
+    return;
+  }
   if (err.code === 'EADDRINUSE') {
     console.error(`\n  Port ${PORT} is already in use. Is Friends Feuuud already running in another window?\n  Close it, or start on another port:  set PORT=4100 && npm start  (PowerShell: $env:PORT=4100; npm start)\n`);
     process.exit(1);
@@ -609,13 +630,17 @@ server.listen(PORT, '0.0.0.0', () => {
   }
   if (settings.pin) console.log('\n  The remote is locked with a PIN.');
   console.log(`\n  ${questions.length} questions loaded. Press Ctrl+C to stop.\n`);
+  if (OPEN_BROWSER) openInBrowser(`http://localhost:${PORT}/`);
 });
 
-process.on('SIGINT', () => {
+function saveAndExit() {
   clearTimeout(saveTimer);
   try {
     fs.mkdirSync(DATA_DIR, { recursive: true });
     writeJsonAtomic(STATE_FILE, { game, undoStack, fxSeq, settings });
   } catch (_) { /* best effort */ }
   process.exit(0);
-});
+}
+process.on('SIGINT', saveAndExit);
+// Closing the launcher's console window arrives as SIGHUP on Windows.
+process.on('SIGHUP', saveAndExit);

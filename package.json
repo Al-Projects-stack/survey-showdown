@@ -5,7 +5,8 @@
   "description": "Friends Feuuud: a local-network survey showdown party game. Big screen on the TV, your phone is the remote.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "shortcut": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/make-shortcut.ps1"
   },
   "engines": {
     "node": ">=18"

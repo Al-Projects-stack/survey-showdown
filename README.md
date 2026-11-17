@@ -8,6 +8,18 @@ Everything runs on your own Wi-Fi. Nothing is online, nothing is deployed, no ac
 
 You need [Node.js](https://nodejs.org) 18 or newer.
 
+### One click (Windows)
+
+Double-click **Start Friends Feuuud.cmd** in this folder. The first time, it installs what it needs. Then it starts the game and opens the big screen in your browser. Keep the small window that opens: closing it ends the game, and your scores are saved. If you double-click it again while the game is running, it just reopens the big screen.
+
+For an icon on your desktop (with the game logo, and you can pin it to the taskbar), run this once:
+
+```bash
+npm run shortcut
+```
+
+### From a terminal
+
 ```bash
 npm install
 npm start
