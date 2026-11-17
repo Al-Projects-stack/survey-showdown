@@ -1,8 +1,8 @@
 {
-  "name": "hive-mind-survey-showdown",
+  "name": "friends-feuuud",
   "version": "1.0.0",
   "private": true,
-  "description": "Hive Mind: a local-network survey showdown party game. Big screen on the TV, your phone is the remote.",
+  "description": "Friends Feuuud: a local-network survey showdown party game. Big screen on the TV, your phone is the remote.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

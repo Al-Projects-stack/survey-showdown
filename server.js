@@ -1,4 +1,4 @@
-// Hive Mind: a local-network survey showdown.
+// Friends Feuuud: a local-network survey showdown.
 // The server holds the one true game state. The big screen and the phone
 // remote are thin views that send actions over Socket.IO and redraw on every
 // state broadcast.
@@ -568,7 +568,7 @@ io.on('connection', (socket) => {
 
 server.on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
-    console.error(`\n  Port ${PORT} is already in use. Is Hive Mind already running in another window?\n  Close it, or start on another port:  set PORT=4100 && npm start  (PowerShell: $env:PORT=4100; npm start)\n`);
+    console.error(`\n  Port ${PORT} is already in use. Is Friends Feuuud already running in another window?\n  Close it, or start on another port:  set PORT=4100 && npm start  (PowerShell: $env:PORT=4100; npm start)\n`);
     process.exit(1);
   }
   throw err;
@@ -577,7 +577,7 @@ server.on('error', (err) => {
 server.listen(PORT, '0.0.0.0', () => {
   const addrs = lanAddresses();
   const best = addrs[0] ? addrs[0].address : 'localhost';
-  console.log('\n  HIVE MIND survey showdown is running\n');
+  console.log('\n  FRIENDS FEUUUD survey showdown is running\n');
   console.log(`  Big screen (this laptop):  http://localhost:${PORT}/`);
   console.log(`  Phone remote:              http://${best}:${PORT}/remote`);
   console.log(`  Question editor:           http://localhost:${PORT}/editor`);

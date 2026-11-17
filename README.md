@@ -1,4 +1,4 @@
-# Hive Mind: survey showdown
+# Friends Feuuud: survey showdown
 
 A party game for a room full of friends. A survey asked 100 people a question; teams try to name the most popular answers. The laptop or TV is the big board, and your phone is the remote.
 

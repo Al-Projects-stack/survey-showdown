@@ -1,7 +1,7 @@
 // Phone remote: the host's answer key and controller.
 (() => {
   const $ = (id) => document.getElementById(id);
-  const PIN_KEY = 'hive-mind-pin';
+  const PIN_KEY = 'friends-feuuud-pin';
   const socket = io({ query: { role: 'remote' } });
 
   let view = null;
