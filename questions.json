@@ -60,6 +60,45 @@
     ]
   },
   {
+    "id": "elevator-eyes",
+    "question": "Name something people do in a lift to avoid eye contact.",
+    "hard": true,
+    "answers": [
+      {
+        "text": "Look at their phone",
+        "points": 24
+      },
+      {
+        "text": "Watch the floor numbers",
+        "points": 21
+      },
+      {
+        "text": "Stare at the floor",
+        "points": 15
+      },
+      {
+        "text": "Fix their hair in the mirror",
+        "points": 11
+      },
+      {
+        "text": "Read the safety notice",
+        "points": 9
+      },
+      {
+        "text": "Hum",
+        "points": 8
+      },
+      {
+        "text": "Pretend to text",
+        "points": 7
+      },
+      {
+        "text": "Check their watch",
+        "points": 5
+      }
+    ]
+  },
+  {
     "id": "junk-drawer",
     "question": "Name something you would find in a junk drawer.",
     "answers": [
@@ -124,6 +163,45 @@
     ]
   },
   {
+    "id": "teeth-no-bite",
+    "question": "Name something that has teeth but can't bite.",
+    "hard": true,
+    "answers": [
+      {
+        "text": "Comb",
+        "points": 28
+      },
+      {
+        "text": "Zip",
+        "points": 20
+      },
+      {
+        "text": "Saw",
+        "points": 16
+      },
+      {
+        "text": "Gear",
+        "points": 12
+      },
+      {
+        "text": "Key",
+        "points": 9
+      },
+      {
+        "text": "Fork",
+        "points": 7
+      },
+      {
+        "text": "Stapler",
+        "points": 5
+      },
+      {
+        "text": "Rake",
+        "points": 3
+      }
+    ]
+  },
+  {
     "id": "road-trip",
     "question": "Name something you can't leave home without on a road trip.",
     "answers": [
@@ -180,6 +258,45 @@
       {
         "text": "Fried rice",
         "points": 4
+      }
+    ]
+  },
+  {
+    "id": "mispronounced",
+    "question": "Name a word people mispronounce all the time.",
+    "hard": true,
+    "answers": [
+      {
+        "text": "Espresso",
+        "points": 22
+      },
+      {
+        "text": "Library",
+        "points": 18
+      },
+      {
+        "text": "Pronunciation",
+        "points": 13
+      },
+      {
+        "text": "Quinoa",
+        "points": 12
+      },
+      {
+        "text": "Worcestershire",
+        "points": 11
+      },
+      {
+        "text": "Specific",
+        "points": 10
+      },
+      {
+        "text": "Mischievous",
+        "points": 8
+      },
+      {
+        "text": "Gif",
+        "points": 6
       }
     ]
   },
@@ -244,6 +361,41 @@
     ]
   },
   {
+    "id": "magician-hat",
+    "question": "Name something a magician pulls out of a hat, other than a rabbit.",
+    "hard": true,
+    "answers": [
+      {
+        "text": "Scarves",
+        "points": 30
+      },
+      {
+        "text": "Flowers",
+        "points": 18
+      },
+      {
+        "text": "A dove",
+        "points": 16
+      },
+      {
+        "text": "Playing cards",
+        "points": 12
+      },
+      {
+        "text": "Coins",
+        "points": 10
+      },
+      {
+        "text": "A wand",
+        "points": 8
+      },
+      {
+        "text": "Nothing at all",
+        "points": 6
+      }
+    ]
+  },
+  {
     "id": "pilot-says",
     "question": "Name something you would hate to hear your pilot say.",
     "answers": [
@@ -300,6 +452,45 @@
       {
         "text": "Kid or pet",
         "points": 5
+      }
+    ]
+  },
+  {
+    "id": "tiny-countries",
+    "question": "Name a country most people would struggle to find on a map.",
+    "hard": true,
+    "answers": [
+      {
+        "text": "Luxembourg",
+        "points": 21
+      },
+      {
+        "text": "Liechtenstein",
+        "points": 18
+      },
+      {
+        "text": "Andorra",
+        "points": 14
+      },
+      {
+        "text": "Bhutan",
+        "points": 12
+      },
+      {
+        "text": "Tuvalu",
+        "points": 11
+      },
+      {
+        "text": "San Marino",
+        "points": 10
+      },
+      {
+        "text": "Vatican City",
+        "points": 8
+      },
+      {
+        "text": "Djibouti",
+        "points": 6
       }
     ]
   },
@@ -364,6 +555,41 @@
     ]
   },
   {
+    "id": "jobs-with-j",
+    "question": "Name a job that starts with the letter J.",
+    "hard": true,
+    "answers": [
+      {
+        "text": "Judge",
+        "points": 27
+      },
+      {
+        "text": "Janitor",
+        "points": 22
+      },
+      {
+        "text": "Journalist",
+        "points": 18
+      },
+      {
+        "text": "Jeweller",
+        "points": 13
+      },
+      {
+        "text": "Jockey",
+        "points": 10
+      },
+      {
+        "text": "Juggler",
+        "points": 6
+      },
+      {
+        "text": "Joiner",
+        "points": 4
+      }
+    ]
+  },
+  {
     "id": "bring-to-braai",
     "question": "Name something guests bring to a braai.",
     "answers": [
@@ -424,6 +650,45 @@
     ]
   },
   {
+    "id": "pointless-collection",
+    "question": "Name something people collect that everyone else finds pointless.",
+    "hard": true,
+    "answers": [
+      {
+        "text": "Stamps",
+        "points": 23
+      },
+      {
+        "text": "Fridge magnets",
+        "points": 17
+      },
+      {
+        "text": "Coins",
+        "points": 14
+      },
+      {
+        "text": "Sneakers",
+        "points": 12
+      },
+      {
+        "text": "Teaspoons",
+        "points": 10
+      },
+      {
+        "text": "Bottle caps",
+        "points": 9
+      },
+      {
+        "text": "Rocks",
+        "points": 8
+      },
+      {
+        "text": "Snow globes",
+        "points": 7
+      }
+    ]
+  },
+  {
     "id": "ignore-text",
     "question": "Name an excuse for not replying to a text.",
     "answers": [
@@ -479,6 +744,45 @@
       },
       {
         "text": "Grumpy people",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "doctor-desk",
+    "question": "Name something you would see on a doctor's desk.",
+    "hard": true,
+    "answers": [
+      {
+        "text": "Stethoscope",
+        "points": 25
+      },
+      {
+        "text": "Blood pressure cuff",
+        "points": 18
+      },
+      {
+        "text": "Prescription pad",
+        "points": 16
+      },
+      {
+        "text": "Computer",
+        "points": 12
+      },
+      {
+        "text": "Thermometer",
+        "points": 10
+      },
+      {
+        "text": "Model skeleton",
+        "points": 8
+      },
+      {
+        "text": "Tongue depressors",
+        "points": 6
+      },
+      {
+        "text": "Jar of sweets",
         "points": 5
       }
     ]
@@ -544,6 +848,45 @@
     ]
   },
   {
+    "id": "instant-wake",
+    "question": "Name a sound that would wake you up instantly.",
+    "hard": true,
+    "answers": [
+      {
+        "text": "Alarm clock",
+        "points": 22
+      },
+      {
+        "text": "Baby crying",
+        "points": 18
+      },
+      {
+        "text": "Smoke alarm",
+        "points": 16
+      },
+      {
+        "text": "Glass breaking",
+        "points": 13
+      },
+      {
+        "text": "Dog barking",
+        "points": 11
+      },
+      {
+        "text": "Thunder",
+        "points": 8
+      },
+      {
+        "text": "Someone calling your name",
+        "points": 7
+      },
+      {
+        "text": "Phone ringing",
+        "points": 5
+      }
+    ]
+  },
+  {
     "id": "lots-of-buttons",
     "question": "Name something that has a lot of buttons.",
     "answers": [
@@ -604,6 +947,41 @@
     ]
   },
   {
+    "id": "eat-politely",
+    "question": "Name a food that is hard to eat politely.",
+    "hard": true,
+    "answers": [
+      {
+        "text": "Corn on the cob",
+        "points": 26
+      },
+      {
+        "text": "Mango",
+        "points": 21
+      },
+      {
+        "text": "Watermelon",
+        "points": 17
+      },
+      {
+        "text": "Pomegranate",
+        "points": 12
+      },
+      {
+        "text": "Ribs",
+        "points": 10
+      },
+      {
+        "text": "Spaghetti",
+        "points": 7
+      },
+      {
+        "text": "Crab",
+        "points": 7
+      }
+    ]
+  },
+  {
     "id": "kids-party",
     "question": "Name something you would see at a kid's birthday party.",
     "answers": [
@@ -656,6 +1034,45 @@
       {
         "text": "In the kitchen",
         "points": 5
+      }
+    ]
+  },
+  {
+    "id": "hotel-3am",
+    "question": "Name a reason a hotel guest calls the front desk at 3am.",
+    "hard": true,
+    "answers": [
+      {
+        "text": "Noise complaint",
+        "points": 30
+      },
+      {
+        "text": "Locked out",
+        "points": 22
+      },
+      {
+        "text": "Aircon broken",
+        "points": 14
+      },
+      {
+        "text": "Need more towels",
+        "points": 10
+      },
+      {
+        "text": "Can't sleep",
+        "points": 8
+      },
+      {
+        "text": "Room service",
+        "points": 7
+      },
+      {
+        "text": "Strange smell",
+        "points": 5
+      },
+      {
+        "text": "Saw a spider",
+        "points": 4
       }
     ]
   },
@@ -716,6 +1133,45 @@
       {
         "text": "Avocado",
         "points": 12
+      }
+    ]
+  },
+  {
+    "id": "famous-duo",
+    "question": "Name a famous duo, real or fictional.",
+    "hard": true,
+    "answers": [
+      {
+        "text": "Tom and Jerry",
+        "points": 20
+      },
+      {
+        "text": "Batman and Robin",
+        "points": 18
+      },
+      {
+        "text": "Romeo and Juliet",
+        "points": 15
+      },
+      {
+        "text": "Sherlock and Watson",
+        "points": 12
+      },
+      {
+        "text": "Mario and Luigi",
+        "points": 10
+      },
+      {
+        "text": "Bonnie and Clyde",
+        "points": 9
+      },
+      {
+        "text": "Timon and Pumbaa",
+        "points": 8
+      },
+      {
+        "text": "Bert and Ernie",
+        "points": 8
       }
     ]
   }

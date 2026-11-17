@@ -76,6 +76,16 @@ window.Sfx = (() => {
       notes.forEach((f, i) => tone(f, i * 0.14, i === notes.length - 1 ? 1.1 : 0.2, { type: 'triangle', gain: 0.18 }));
       tone(262, 0.84, 1.1, { type: 'sine', gain: 0.12 });
     },
+    intro() {
+      // Snare roll that speeds up, then a big rising chord.
+      let t = 0;
+      for (let i = 0; i < 18; i++) {
+        noise(t, 0.08, 0.05 + i * 0.006);
+        t += Math.max(0.035, 0.11 - i * 0.005);
+      }
+      [262, 330, 392, 523, 659].forEach((f, i) => tone(f, t + i * 0.07, 1.2 - i * 0.1, { type: 'sawtooth', gain: 0.05 }));
+      [523, 784, 1047].forEach((f, i) => tone(f, t + 0.35 + i * 0.12, 0.9, { type: 'triangle', gain: 0.14 }));
+    },
     tick() {
       tone(1200, 0, 0.05, { type: 'square', gain: 0.03 });
     },

@@ -1,6 +1,6 @@
 # Friends Feuuud: survey showdown
 
-A party game for a room full of friends. A survey asked 100 people a question; teams try to name the most popular answers. The laptop or TV is the big board, and your phone is the remote.
+A party game for a room full of friends. A survey asked 100 people a question; teams try to name the most popular answers. The laptop or TV is the big board, with a neon game-show look (sweeping stage lights, glowing board, flip animations), and your phone is the remote.
 
 Everything runs on your own Wi-Fi. Nothing is online, nothing is deployed, no accounts.
 
@@ -43,8 +43,11 @@ Also make sure your home Wi-Fi is set to a **Private** network in Windows (Setti
 
 1. Plug the laptop into the TV, open `http://localhost:4000/` and press **F** for full screen. Click once anywhere to turn on sound.
 2. Open the remote on your phone. In **Setup**, pick 2 or 3 teams, type the team names and tap **New game**.
-3. Optional: in **Setup > Lock the remote**, set a PIN so only your phone can control the game. Friends who scan the QR code without it get a read-only scoreboard.
-4. Hide the QR code (Setup, or press **Q** on the laptop) once everyone is in.
+3. A new game opens on the **intro screen**: the title drops in, the teams line up with a VS, and the join QR code sits in the corner. Announce the game, then tap **Start the game** on the remote (or press **Enter** on the laptop). Want it again later? **Setup > Show the intro screen**, or press **I**.
+4. Optional: in **Setup > Lock the remote**, set a PIN so only your phone can control the game. Friends who scan the QR code without it get a read-only scoreboard.
+5. Hide the QR code (Setup, or press **Q** on the laptop) once everyone is in.
+
+The big screen only ever says "Question 5", never "5 of 36", so the room can't tell how many rounds are left. Your phone still shows the total.
 
 ### Playing a round
 
@@ -75,6 +78,8 @@ Press **H** on the big screen to see these.
 
 | Key | Action |
 |---|---|
+| Enter | Start the game from the intro |
+| I | Intro screen on or off |
 | 1 to 8 | Reveal that answer |
 | X | Strike |
 | A | Reveal all |
@@ -90,7 +95,7 @@ The laptop running the server is always trusted, even when a PIN is set. To make
 
 ## Questions
 
-The questions live in `questions.json`. There are 24 to start with. Edit them in the browser at `http://localhost:4000/editor` (changes go live straight away), or edit the file by hand while the server is stopped:
+The questions live in `questions.json`. There are 36 to start with: 24 regular ones and 12 **hard** ones, mixed in so every third question is a hard one. Hard questions have eight answers with the points spread thin, so the obvious guesses only score a little. The big screen gives them a **Brain buster** badge and the remote marks them **Hard**. Edit them in the browser at `http://localhost:4000/editor` (changes go live straight away), or edit the file by hand while the server is stopped:
 
 ```json
 {
@@ -105,6 +110,7 @@ The questions live in `questions.json`. There are 24 to start with. Edit them in
 ```
 
 * 1 to 8 answers per question. Points are "how many out of 100 said this" and the board sorts them highest first.
+* Add `"hard": true` to a question (or tick **Hard question** in the editor) to mark it as a brain buster.
 * The `id` field is optional. The server adds one if it is missing and uses it to remember each round's progress.
 * **Setup > Shuffle question order** gives a different running order for each new game.
 
@@ -115,7 +121,7 @@ Scores, revealed answers and the undo history are saved to `data/state.json` aft
 ## How it works
 
 * `server.js`: Express plus Socket.IO. The server holds the only copy of the game state. The remote sends actions, the server applies them and pushes the new state to every screen. Screens that reconnect get the current state straight away.
-* `public/index.html`: the big screen. Animations are CSS; sound effects are synthesized with the Web Audio API (no audio files).
+* `public/index.html`: the big screen. Animations are CSS; sound effects are synthesized with the Web Audio API (no audio files). The fonts (Bungee and Outfit) are installed from npm and served locally, so nothing loads from the internet.
 * `public/remote.html`: the phone remote.
 * `public/editor.html`: the question editor.
 * The QR code is generated on the laptop by the `qrcode` package. No internet needed.

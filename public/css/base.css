@@ -1,21 +1,26 @@
+/* Friends Feuuud: neon game-show palette shared by every page. */
 :root {
-  --bg: #120b26;
-  --bg-2: #1c1240;
-  --panel: #241855;
-  --panel-2: #2e1f6b;
+  --bg: #07060f;
+  --bg-2: #110c26;
+  --panel: #161133;
+  --panel-2: #211947;
+  --glass: rgba(28, 22, 64, 0.62);
   --line: rgba(255, 255, 255, 0.12);
-  --text: #f7f3ff;
-  --muted: #b9aee0;
-  --honey: #ffb321;
-  --honey-2: #ffd36b;
-  --honey-deep: #c97a00;
-  --ink: #1a1033;
+  --text: #f6f4ff;
+  --muted: #a9a3cf;
+  --pink: #ff2e88;
+  --cyan: #22e3ff;
+  --violet: #8b5cf6;
+  --gold: #ffcc33;
+  --gold-2: #ffe27a;
+  --gold-deep: #c98a00;
+  --ink: #0b0918;
   --strike: #ff3b4e;
-  --team-0: #ff6b5b;
-  --team-1: #2ed3c6;
-  --team-2: #b5e655;
-  --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Arial Black", "Segoe UI Black", "Segoe UI", system-ui, sans-serif;
+  --team-0: #ff7a3d;
+  --team-1: #2de2ff;
+  --team-2: #a8ff3e;
+  --font: "Outfit", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --font-display: "Bungee", "Arial Black", "Segoe UI Black", system-ui, sans-serif;
   color-scheme: dark;
 }
 
@@ -32,20 +37,28 @@ body {
 
 button { font: inherit; color: inherit; }
 
-.hex-logo {
-  width: 1em;
+.logo-mark {
+  width: 1.25em;
   height: 1em;
   display: inline-block;
   vertical-align: -0.12em;
+  overflow: visible;
 }
 
 .wordmark {
   font-family: var(--font-display);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.wordmark b { color: var(--honey); font-weight: inherit; }
+.wordmark b {
+  font-weight: inherit;
+  background: linear-gradient(90deg, var(--pink), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 .t0 { --team: var(--team-0); }
 .t1 { --team: var(--team-1); }

@@ -3,10 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#120b26">
+  <meta name="theme-color" content="#07060f">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>Friends Feuuud: remote</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/bungee/latin-400.css">
+  <link rel="stylesheet" href="/fonts/outfit/latin-500.css">
+  <link rel="stylesheet" href="/fonts/outfit/latin-700.css">
+  <link rel="stylesheet" href="/fonts/outfit/latin-900.css">
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/remote.css">
 </head>
@@ -14,7 +18,7 @@
   <div class="sticky">
   <header class="bar">
     <div class="brand">
-      <svg class="hex-logo" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 90,27 90,73 50,96 10,73 10,27" fill="#ffb321"/><polygon points="50,30 67,40 67,60 50,70 33,60 33,40" fill="#120b26"/></svg>
+      <svg class="logo-mark" viewBox="0 0 120 100" aria-hidden="true"><path d="M8 14h56a8 8 0 0 1 8 8v30a8 8 0 0 1-8 8H30l-14 14V60h-8a8 8 0 0 1-8-8V22a8 8 0 0 1 8-8z" fill="#ff2e88"/><path d="M112 34H56a8 8 0 0 0-8 8v30a8 8 0 0 0 8 8h34l14 14V80h8a8 8 0 0 0 8-8V42a8 8 0 0 0-8-8z" fill="#22e3ff"/><path d="M66 44l-8 18h10l-6 16 18-22H70l6-12z" fill="#ffcc33"/></svg>
       <span class="wordmark">Friends <b>Feuuud</b></span>
       <span class="conn" id="conn"></span>
     </div>
@@ -31,7 +35,7 @@
       <p class="muted">Enter the host PIN to control the game. Without it you can still follow the scores here.</p>
       <form id="pinForm" class="pin-row">
         <input id="pinInput" inputmode="numeric" pattern="\d*" maxlength="8" autocomplete="off" placeholder="PIN" aria-label="Host PIN">
-        <button class="btn honey" type="submit">Unlock</button>
+        <button class="btn primary" type="submit">Unlock</button>
       </form>
       <p class="error" id="pinError" hidden></p>
     </div>
@@ -45,6 +49,12 @@
   <main id="app" hidden>
     <!-- PLAY -->
     <section class="tab" data-tab="play">
+      <div class="card intro-card" id="introCard" hidden>
+        <h2>The intro is on the big screen</h2>
+        <p class="muted small">Announce the game and the teams. When everyone is ready, start the first question.</p>
+        <button class="btn primary wide" id="startGame" type="button">Start the game</button>
+      </div>
+
       <div class="card q-card">
         <div class="q-meta" id="qMeta"></div>
         <p class="q-text" id="qText"></p>
@@ -95,7 +105,7 @@
         <h3>Rounds won</h3>
         <ol class="log" id="log"></ol>
       </div>
-      <button class="btn honey wide" id="finalBtn" type="button">Show final scores</button>
+      <button class="btn primary wide" id="finalBtn" type="button">Show final scores</button>
     </section>
 
     <!-- SETUP -->
@@ -110,7 +120,7 @@
         <label class="check"><input type="checkbox" id="shuffle"> Shuffle question order on new game</label>
         <div class="big-row">
           <button class="btn ghost" id="saveTeams" type="button">Save teams</button>
-          <button class="btn honey" id="newGame" type="button">New game</button>
+          <button class="btn primary" id="newGame" type="button">New game</button>
         </div>
         <p class="muted small">Save keeps the scores. New game sets every score to 0 and starts at question 1.</p>
       </div>
@@ -118,6 +128,7 @@
       <div class="card">
         <h3>Big screen</h3>
         <label class="check"><input type="checkbox" id="qrToggle"> Show the join QR code</label>
+        <button class="btn ghost wide" id="introBtn" type="button">Show the intro screen</button>
         <a class="btn ghost wide" href="/" target="_blank" rel="noopener">Open the big screen</a>
       </div>
 

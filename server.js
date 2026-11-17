@@ -20,7 +20,7 @@ const STATE_FILE = path.join(DATA_DIR, 'state.json');
 const MAX_TEAMS = 3;
 const MAX_ANSWERS = 8;
 const MAX_UNDO = 40;
-const DEFAULT_NAMES = ['The Buzzers', 'The Stingers', 'The Drones'];
+const DEFAULT_NAMES = ['The Legends', 'The Underdogs', 'The Wildcards'];
 
 // ---------------------------------------------------------------- questions
 
@@ -50,7 +50,9 @@ function normalizeQuestions(raw) {
     if (!id || seen.has(id)) id = makeId();
     while (seen.has(id)) id = makeId();
     seen.add(id);
-    return { id, question: text, answers };
+    const out = { id, question: text, answers };
+    if (q.hard === true || q.hard === 'true') out.hard = true;
+    return out;
   });
 }
 
@@ -104,6 +106,7 @@ function freshGame({ count = 2, names = [], shuffleOrder = false } = {}) {
     rounds: {},
     showQr: true,
     final: false,
+    intro: true,
     fx: null,
   };
 }
@@ -141,6 +144,7 @@ function reconcile() {
     r.revealed = Array.from({ length: n }, (_, i) => Number((r.revealed || [])[i]) || 0);
   }
   game.teamCount = game.teamCount === 3 ? 3 : 2;
+  game.intro = !!game.intro;
   if (!Array.isArray(game.teams)) game.teams = [];
   game.teams = [0, 1, 2].map((i) => ({
     name: cleanName(game.teams[i] && game.teams[i].name, i),
@@ -283,12 +287,14 @@ const ACTIONS = {
     if (game.pos >= game.order.length - 1) throw new Error('That was the last question.');
     game.pos += 1;
     game.final = false;
+    game.intro = false;
     return { type: 'question' };
   },
   prev() {
     if (game.pos <= 0) throw new Error('Already on the first question.');
     game.pos -= 1;
     game.final = false;
+    game.intro = false;
     return { type: 'question' };
   },
   goto({ pos }) {
@@ -297,6 +303,7 @@ const ACTIONS = {
     if (p === game.pos) return null;
     game.pos = p;
     game.final = false;
+    game.intro = false;
     return { type: 'question' };
   },
   adjustScore({ team, delta }) {
@@ -326,7 +333,15 @@ const ACTIONS = {
   },
   setFinal({ on }) {
     game.final = !!on;
+    if (game.final) game.intro = false;
     return { type: game.final ? 'final' : 'sync' };
+  },
+  setIntro({ on }) {
+    const next = !!on;
+    if (next === game.intro) return null;
+    game.intro = next;
+    if (next) game.final = false;
+    return { type: next ? 'intro' : 'start' };
   },
 };
 
@@ -370,7 +385,9 @@ function buildView(full) {
   const view = {
     teams,
     teamCount: game.teamCount,
-    question: { id: q.id, text: q.question, number: game.pos + 1, total: game.order.length, answerCount: q.answers.length },
+    // The total question count is for the host only: the audience must not
+    // know how many rounds are left.
+    question: { id: q.id, text: q.question, number: game.pos + 1, total: full ? game.order.length : null, answerCount: q.answers.length, hard: !!q.hard },
     answers: q.answers.map((a, i) => {
       const shown = r.revealed[i] > 0;
       return {
@@ -394,6 +411,7 @@ function buildView(full) {
     history,
     showQr: game.showQr,
     final: game.final,
+    intro: game.intro,
     fx: game.fx,
     canUndo: undoStack.length > 0,
     pinSet: !!settings.pin,
@@ -402,7 +420,8 @@ function buildView(full) {
   if (full) {
     view.questionList = game.order.map((id, pos) => {
       const rr = game.rounds[id];
-      return { pos, text: byId.get(id).question, awarded: !!(rr && rr.awardedTo !== null), touched: !!rr };
+      const qq = byId.get(id);
+      return { pos, text: qq.question, hard: !!qq.hard, awarded: !!(rr && rr.awardedTo !== null), touched: !!rr };
     });
   }
   return view;
@@ -458,6 +477,9 @@ function pinMatches(pin) {
 const app = express();
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static(path.join(ROOT, 'public'), { extensions: ['html'] }));
+// Fonts ship with npm so the game looks right with no internet.
+app.use('/fonts/bungee', express.static(path.join(ROOT, 'node_modules', '@fontsource', 'bungee')));
+app.use('/fonts/outfit', express.static(path.join(ROOT, 'node_modules', '@fontsource', 'outfit')));
 
 app.get('/remote', (req, res) => res.sendFile(path.join(ROOT, 'public', 'remote.html')));
 app.get('/editor', (req, res) => res.sendFile(path.join(ROOT, 'public', 'editor.html')));

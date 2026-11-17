@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Friends Feuuud: question editor</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/bungee/latin-400.css">
+  <link rel="stylesheet" href="/fonts/outfit/latin-500.css">
+  <link rel="stylesheet" href="/fonts/outfit/latin-700.css">
+  <link rel="stylesheet" href="/fonts/outfit/latin-900.css">
   <link rel="stylesheet" href="/css/base.css">
   <style>
     body { background: linear-gradient(180deg, var(--bg-2), var(--bg) 400px); min-height: 100%; }
@@ -18,38 +22,40 @@
     .status.bad { color: #ff8a95; font-weight: 700; }
     .status.good { color: #8af0b0; font-weight: 700; }
     .btn { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel-2); color: var(--text); font-weight: 800; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
-    .btn.honey { background: var(--honey); color: var(--ink); border-color: transparent; }
+    .btn.primary { background: linear-gradient(90deg, var(--pink), var(--violet)); color: #fff; border-color: transparent; }
     .btn.small { min-height: 34px; padding: 0 10px; font-size: 13px; }
     .btn.danger { color: #ff9aa4; }
     .btn:disabled { opacity: 0.35; cursor: default; }
     .intro { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 18px 0; }
     .q { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 14px; margin-bottom: 14px; }
     .q-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
-    .q-head .n { font-family: var(--font-display); color: var(--honey); }
+    .q-head .n { font-family: var(--font-display); color: var(--pink); }
     .q-head .tools { display: flex; gap: 6px; }
     textarea, input { font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; width: 100%; }
     textarea { resize: vertical; min-height: 52px; font-size: 17px; font-weight: 700; }
     .ans { display: grid; grid-template-columns: 28px 1fr 90px auto; gap: 8px; align-items: center; margin-top: 8px; }
     .ans .i { color: var(--muted); font-weight: 800; text-align: center; }
     .ans input[type=number] { text-align: right; }
+    .hardbox { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 14px; color: var(--muted); font-weight: 600; }
+    .hardbox input { width: 18px; height: 18px; accent-color: var(--pink); }
     .foot { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 13px; color: var(--muted); }
     .lock { max-width: 420px; margin: 60px auto; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
     .lock form { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 12px; }
     [hidden] { display: none !important; }
-    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--honey-2); outline-offset: 2px; }
+    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap">
       <div class="brand">
-        <svg class="hex-logo" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 90,27 90,73 50,96 10,73 10,27" fill="#ffb321"/><polygon points="50,30 67,40 67,60 50,70 33,60 33,40" fill="#120b26"/></svg>
+        <svg class="logo-mark" viewBox="0 0 120 100" aria-hidden="true"><path d="M8 14h56a8 8 0 0 1 8 8v30a8 8 0 0 1-8 8H30l-14 14V60h-8a8 8 0 0 1-8-8V22a8 8 0 0 1 8-8z" fill="#ff2e88"/><path d="M112 34H56a8 8 0 0 0-8 8v30a8 8 0 0 0 8 8h34l14 14V80h8a8 8 0 0 0 8-8V42a8 8 0 0 0-8-8z" fill="#22e3ff"/><path d="M66 44l-8 18h10l-6 16 18-22H70l6-12z" fill="#ffcc33"/></svg>
         <span class="wordmark">Friends <b>Feuuud</b></span><small>Question editor</small>
       </div>
       <div class="actions">
         <span class="status" id="status"></span>
         <button class="btn" id="add" type="button">Add question</button>
-        <button class="btn honey" id="save" type="button" disabled>Save</button>
+        <button class="btn primary" id="save" type="button" disabled>Save</button>
       </div>
     </div>
   </header>
@@ -59,7 +65,7 @@
     <p class="intro" style="margin:0">The remote has a PIN. Enter it to edit questions.</p>
     <form id="pinForm">
       <input id="pin" inputmode="numeric" maxlength="8" placeholder="PIN" aria-label="Host PIN">
-      <button class="btn honey" type="submit">Unlock</button>
+      <button class="btn primary" type="submit">Unlock</button>
     </form>
     <p class="status bad" id="pinErr" hidden>That PIN is not right.</p>
   </div>
@@ -107,11 +113,15 @@
             </div>
           </div>
           <textarea rows="2" placeholder="Name something..." aria-label="Question text"></textarea>
+          <label class="hardbox"><input type="checkbox" data-hard> Hard question (shows a Brain buster badge)</label>
           <div class="answers"></div>
           <div class="foot"><button class="btn small" data-act="addAns" ${q.answers.length >= 8 ? 'disabled' : ''}>Add answer</button><span>${q.answers.length} answers, ${total} points total</span></div>`;
         const ta = card.querySelector('textarea');
         ta.value = q.question;
         ta.addEventListener('input', () => { q.question = ta.value; markDirty(); });
+        const hb = card.querySelector('[data-hard]');
+        hb.checked = !!q.hard;
+        hb.addEventListener('change', () => { if (hb.checked) q.hard = true; else delete q.hard; markDirty(); });
         const box = card.querySelector('.answers');
         q.answers.forEach((a, ai) => {
           const row = document.createElement('div');

@@ -83,7 +83,7 @@
 
   function renderLocked() {
     const v = view;
-    $('lockedMeta').textContent = `Question ${v.question.number} of ${v.question.total}`;
+    $('lockedMeta').textContent = `Question ${v.question.number}`;
     $('lockedQ').textContent = v.question.text;
     $('lockedAnswers').innerHTML = v.answers.map((a) => a.revealed
       ? `<li><span>${a.n}. ${esc(a.text)}</span><span>${a.points}</span></li>`
@@ -94,13 +94,18 @@
     const v = view;
     const r = v.round;
     const multText = r.multiplier === 2 ? ' . Double points' : r.multiplier === 3 ? ' . Triple points' : '';
-    $('qMeta').textContent = `Question ${v.question.number} of ${v.question.total}${multText}`;
+    // The total is only on the host's phone; the big screen never shows it.
+    $('qMeta').innerHTML = `Question ${v.question.number} of ${v.question.total}${multText}${v.question.hard ? '<span class="tag-hard">Hard</span>' : ''}`;
+    $('introCard').hidden = !v.intro;
     $('qText').textContent = v.question.text;
     $('prev').disabled = v.question.number <= 1;
     $('next').disabled = v.question.number >= v.question.total;
 
+    const fresh = renderPlay.qid !== v.question.id;
+    renderPlay.qid = v.question.id;
+    $('answers').classList.toggle('fresh', fresh);
     $('answers').innerHTML = v.answers.map((a, i) => `
-      <button type="button" class="ans${a.revealed ? ' revealed' : ''}${a.revealed && !a.earned ? ' shown' : ''}" data-i="${i}">
+      <button type="button" style="--k:${i}" class="ans${a.revealed ? ' revealed' : ''}${a.revealed && !a.earned ? ' shown' : ''}" data-i="${i}">
         <span class="num">${a.n}</span><span class="txt">${esc(a.text)}</span><span class="pts">${a.points}</span>
       </button>`).join('');
 
@@ -165,14 +170,15 @@
         input.type = 'text';
         input.maxLength = 24;
         input.value = setupDirty && current[i] !== undefined ? current[i] : (view.teams[i] ? view.teams[i].name : '');
-        if (!input.value && !view.teams[i]) input.placeholder = ['The Buzzers', 'The Stingers', 'The Drones'][i];
+        if (!input.value && !view.teams[i]) input.placeholder = ['The Legends', 'The Underdogs', 'The Wildcards'][i];
         input.addEventListener('input', () => { setupDirty = true; });
         label.appendChild(input);
         names.appendChild(label);
       }
     }
     $('qrToggle').checked = v.showQr;
-    $('jump').innerHTML = (v.questionList || []).map((q) => `<li><button type="button" data-pos="${q.pos}" class="${q.pos === v.question.number - 1 ? 'current' : ''}">${q.pos + 1}. ${esc(q.text)}${q.awarded ? '<span class="tag">done</span>' : ''}</button></li>`).join('');
+    $('introBtn').textContent = v.intro ? 'Hide the intro screen' : 'Show the intro screen';
+    $('jump').innerHTML = (v.questionList || []).map((q) => `<li><button type="button" data-pos="${q.pos}" class="${q.pos === v.question.number - 1 ? 'current' : ''}">${q.pos + 1}. ${esc(q.text)}${q.hard ? '<span class="tag-hard">Hard</span>' : ''}${q.awarded ? '<span class="tag">done</span>' : ''}</button></li>`).join('');
     $('pinStatus').textContent = v.pinSet
       ? 'The remote is locked. Other phones need the PIN to control the game.'
       : 'Anyone on the Wi-Fi who opens the remote can control the game. Set a PIN so only you can.';
@@ -243,6 +249,11 @@
     setupDirty = false;
     document.activeElement && document.activeElement.blur();
     showTab('play');
+  });
+  $('startGame').addEventListener('click', () => send('setIntro', { on: false }));
+  $('introBtn').addEventListener('click', () => {
+    send('setIntro', { on: !view.intro });
+    if (!view.intro) showTab('play');
   });
   $('qrToggle').addEventListener('change', (e) => send('toggleQr', { on: e.target.checked }));
   $('jump').addEventListener('click', (e) => {

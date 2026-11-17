@@ -5,19 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Friends Feuuud: big screen</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/bungee/latin-400.css">
+  <link rel="stylesheet" href="/fonts/outfit/latin-500.css">
+  <link rel="stylesheet" href="/fonts/outfit/latin-700.css">
+  <link rel="stylesheet" href="/fonts/outfit/latin-900.css">
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/host.css">
 </head>
 <body>
+  <!-- Stage lighting: sweeping beams and a moving neon floor -->
+  <div class="bg" aria-hidden="true">
+    <div class="beam b1"></div>
+    <div class="beam b2"></div>
+    <div class="beam b3"></div>
+    <div class="floor"></div>
+  </div>
+
   <div class="stage" id="stage">
     <header class="top">
       <div class="brand">
-        <svg class="hex-logo" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 90,27 90,73 50,96 10,73 10,27" fill="#ffb321"/><polygon points="50,30 67,40 67,60 50,70 33,60 33,40" fill="#120b26"/></svg>
+        <svg class="logo-mark" viewBox="0 0 120 100" aria-hidden="true"><path d="M8 14h56a8 8 0 0 1 8 8v30a8 8 0 0 1-8 8H30l-14 14V60h-8a8 8 0 0 1-8-8V22a8 8 0 0 1 8-8z" fill="#ff2e88"/><path d="M112 34H56a8 8 0 0 0-8 8v30a8 8 0 0 0 8 8h34l14 14V80h8a8 8 0 0 0 8-8V42a8 8 0 0 0-8-8z" fill="#22e3ff"/><path d="M66 44l-8 18h10l-6 16 18-22H70l6-12z" fill="#ffcc33"/></svg>
         <span class="wordmark">Friends <b>Feuuud</b></span>
       </div>
       <div class="round-chip">
-        <span id="qnum">Question 1</span>
-        <span id="mult" class="mult" hidden></span>
+        <span class="chip" id="qnum">Question 1</span>
+        <span class="chip hard" id="hard" hidden>Brain buster</span>
+        <span class="chip mult" id="mult" hidden></span>
       </div>
       <div class="top-right">
         <span class="conn" id="conn" title="Connection"></span>
@@ -39,42 +52,78 @@
           <span class="slot"></span><span class="slot"></span><span class="slot"></span>
         </div>
       </div>
-      <div class="board" id="board"></div>
+      <div class="board-wrap"><div class="board" id="board"></div></div>
       <div class="side right">
         <div class="join" id="join" hidden>
           <div class="join-title">Grab the remote</div>
-          <div class="qr" id="qr"></div>
-          <button class="join-url" id="joinUrl" title="Click to try another network address"></button>
-          <div class="join-hint" id="joinHint">Same Wi-Fi as this screen</div>
+          <div class="qr" data-qr></div>
+          <button class="join-url" data-join-url title="Click to try another network address"></button>
+          <div class="join-hint" data-join-hint>Same Wi-Fi as this screen</div>
         </div>
       </div>
     </section>
 
     <footer class="teams" id="teams"></footer>
-
-    <div class="banner" id="banner" aria-live="polite"></div>
-    <div class="bigx" id="bigx" aria-hidden="true"></div>
-    <div class="final" id="final" hidden></div>
-    <div class="help" id="help" hidden>
-      <h2>Keyboard shortcuts (this laptop only)</h2>
-      <dl>
-        <dt>1 to 8</dt><dd>Reveal that answer</dd>
-        <dt>X</dt><dd>Strike</dd>
-        <dt>A</dt><dd>Reveal all</dd>
-        <dt>Shift + 1, 2, 3</dt><dd>Give the pot to that team</dd>
-        <dt>Left / Right</dt><dd>Previous / next question</dd>
-        <dt>U or Ctrl + Z</dt><dd>Undo</dd>
-        <dt>Q</dt><dd>Show or hide the join code</dd>
-        <dt>S</dt><dd>Final scores on or off</dd>
-        <dt>F</dt><dd>Full screen</dd>
-        <dt>M</dt><dd>Sound on or off</dd>
-        <dt>H</dt><dd>This help</dd>
-      </dl>
-    </div>
-    <button class="sound" id="sound" type="button">Sound is off. Click to turn on</button>
-    <div class="offline" id="offline" hidden>Reconnecting to the game server...</div>
-    <div class="toast" id="toast" hidden></div>
   </div>
+
+  <!-- Intro: shown while the host announces the game -->
+  <section class="intro" id="intro" hidden>
+    <div class="intro-center">
+      <svg class="intro-mark" viewBox="0 0 120 100" aria-hidden="true"><path class="bub1" d="M8 14h56a8 8 0 0 1 8 8v30a8 8 0 0 1-8 8H30l-14 14V60h-8a8 8 0 0 1-8-8V22a8 8 0 0 1 8-8z" fill="#ff2e88"/><path class="bub2" d="M112 34H56a8 8 0 0 0-8 8v30a8 8 0 0 0 8 8h34l14 14V80h8a8 8 0 0 0 8-8V42a8 8 0 0 0-8-8z" fill="#22e3ff"/><path class="bolt" d="M66 44l-8 18h10l-6 16 18-22H70l6-12z" fill="#ffcc33"/></svg>
+      <h1 class="intro-title" aria-label="Friends Feuuud">
+        <span class="row1" data-letters="FRIENDS"></span>
+        <span class="row2" data-letters="FEUUUD"></span>
+      </h1>
+      <p class="intro-tag">100 people answered. Can you think like the crowd?</p>
+      <div class="intro-teams" id="introTeams"></div>
+      <div class="intro-ready">Get ready</div>
+    </div>
+    <div class="intro-join" id="introJoin" hidden>
+      <div class="qr" data-qr></div>
+      <div>
+        <div class="join-title">Scan for the remote</div>
+        <button class="join-url" data-join-url></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Question card that sweeps across between rounds -->
+  <div class="inter" id="inter" aria-hidden="true">
+    <div class="inter-band a"></div>
+    <div class="inter-band b"></div>
+    <div class="inter-text">
+      <span class="inter-label" id="interLabel">Question</span>
+      <span class="inter-num" id="interNum">1</span>
+      <span class="inter-hard" id="interHard" hidden>Brain buster</span>
+    </div>
+  </div>
+
+  <div class="fxlayer" id="fxlayer" aria-hidden="true"></div>
+  <div class="redflash" id="redflash" aria-hidden="true"></div>
+  <div class="banner" id="banner" aria-live="polite"></div>
+  <div class="bigx" id="bigx" aria-hidden="true"></div>
+  <div class="final" id="final" hidden></div>
+  <div class="help" id="help" hidden>
+    <h2>Keyboard shortcuts (this laptop only)</h2>
+    <dl>
+      <dt>Enter</dt><dd>Start the game from the intro</dd>
+      <dt>I</dt><dd>Intro screen on or off</dd>
+      <dt>1 to 8</dt><dd>Reveal that answer</dd>
+      <dt>X</dt><dd>Strike</dd>
+      <dt>A</dt><dd>Reveal all</dd>
+      <dt>Shift + 1, 2, 3</dt><dd>Give the pot to that team</dd>
+      <dt>Left / Right</dt><dd>Previous / next question</dd>
+      <dt>U or Ctrl + Z</dt><dd>Undo</dd>
+      <dt>Q</dt><dd>Show or hide the join code</dd>
+      <dt>S</dt><dd>Final scores on or off</dd>
+      <dt>F</dt><dd>Full screen</dd>
+      <dt>M</dt><dd>Sound on or off</dd>
+      <dt>H</dt><dd>This help</dd>
+    </dl>
+  </div>
+  <button class="sound" id="sound" type="button">Sound is off. Click to turn on</button>
+  <div class="offline" id="offline" hidden>Reconnecting to the game server...</div>
+  <div class="toast" id="toast" hidden></div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/sfx.js"></script>
