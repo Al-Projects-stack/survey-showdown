@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hive Mind: question editor</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/base.css">
+  <style>
+    body { background: linear-gradient(180deg, var(--bg-2), var(--bg) 400px); min-height: 100%; }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px 120px; }
+    header { position: sticky; top: 0; z-index: 5; background: rgba(18, 11, 38, 0.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 8px; font-size: 18px; }
+    .brand small { color: var(--muted); font-family: var(--font); letter-spacing: 0; text-transform: none; font-size: 14px; margin-left: 6px; }
+    .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .status { font-size: 13px; color: var(--muted); }
+    .status.bad { color: #ff8a95; font-weight: 700; }
+    .status.good { color: #8af0b0; font-weight: 700; }
+    .btn { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel-2); color: var(--text); font-weight: 800; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+    .btn.honey { background: var(--honey); color: var(--ink); border-color: transparent; }
+    .btn.small { min-height: 34px; padding: 0 10px; font-size: 13px; }
+    .btn.danger { color: #ff9aa4; }
+    .btn:disabled { opacity: 0.35; cursor: default; }
+    .intro { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 18px 0; }
+    .q { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 14px; margin-bottom: 14px; }
+    .q-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .q-head .n { font-family: var(--font-display); color: var(--honey); }
+    .q-head .tools { display: flex; gap: 6px; }
+    textarea, input { font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; width: 100%; }
+    textarea { resize: vertical; min-height: 52px; font-size: 17px; font-weight: 700; }
+    .ans { display: grid; grid-template-columns: 28px 1fr 90px auto; gap: 8px; align-items: center; margin-top: 8px; }
+    .ans .i { color: var(--muted); font-weight: 800; text-align: center; }
+    .ans input[type=number] { text-align: right; }
+    .foot { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 13px; color: var(--muted); }
+    .lock { max-width: 420px; margin: 60px auto; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+    .lock form { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 12px; }
+    [hidden] { display: none !important; }
+    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--honey-2); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <svg class="hex-logo" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 90,27 90,73 50,96 10,73 10,27" fill="#ffb321"/><polygon points="50,30 67,40 67,60 50,70 33,60 33,40" fill="#120b26"/></svg>
+        <span class="wordmark">Hive <b>Mind</b></span><small>Question editor</small>
+      </div>
+      <div class="actions">
+        <span class="status" id="status"></span>
+        <button class="btn" id="add" type="button">Add question</button>
+        <button class="btn honey" id="save" type="button" disabled>Save</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="lock" id="lock" hidden>
+    <h2 style="margin-top:0">Editor is locked</h2>
+    <p class="intro" style="margin:0">The remote has a PIN. Enter it to edit questions.</p>
+    <form id="pinForm">
+      <input id="pin" inputmode="numeric" maxlength="8" placeholder="PIN" aria-label="Host PIN">
+      <button class="btn honey" type="submit">Unlock</button>
+    </form>
+    <p class="status bad" id="pinErr" hidden>That PIN is not right.</p>
+  </div>
+
+  <main class="wrap" id="main" hidden>
+    <p class="intro">Each question can have 1 to 8 answers. Points are how many people out of 100 gave that answer, so the board sorts them highest first. Saving writes <code>questions.json</code> and the big screen picks up the change straight away. Scores are kept.</p>
+    <div id="list"></div>
+    <button class="btn" id="addBottom" type="button">Add question</button>
+  </main>
+
+  <script>
+  (() => {
+    const $ = (id) => document.getElementById(id);
+    const PIN_KEY = 'hive-mind-pin';
+    let data = [];
+    let dirty = false;
+
+    function pin() { try { return localStorage.getItem(PIN_KEY) || ''; } catch (_) { return ''; } }
+    function setStatus(text, kind = '') { const s = $('status'); s.textContent = text; s.className = 'status ' + kind; }
+    function markDirty() { dirty = true; $('save').disabled = false; setStatus('Unsaved changes'); }
+
+    async function load() {
+      const res = await fetch('/api/questions', { headers: { 'x-pin': pin() } });
+      if (res.status === 401) { $('lock').hidden = false; $('main').hidden = true; return; }
+      data = await res.json();
+      $('lock').hidden = true;
+      $('main').hidden = false;
+      render();
+      setStatus(`${data.length} questions`);
+    }
+
+    function render() {
+      const list = $('list');
+      list.innerHTML = '';
+      data.forEach((q, qi) => {
+        const card = document.createElement('section');
+        card.className = 'q';
+        const total = q.answers.reduce((s, a) => s + (Number(a.points) || 0), 0);
+        card.innerHTML = `
+          <div class="q-head"><span class="n">Q${qi + 1}</span>
+            <div class="tools">
+              <button class="btn small" data-act="up" ${qi === 0 ? 'disabled' : ''} aria-label="Move up">Up</button>
+              <button class="btn small" data-act="down" ${qi === data.length - 1 ? 'disabled' : ''} aria-label="Move down">Down</button>
+              <button class="btn small danger" data-act="del">Delete</button>
+            </div>
+          </div>
+          <textarea rows="2" placeholder="Name something..." aria-label="Question text"></textarea>
+          <div class="answers"></div>
+          <div class="foot"><button class="btn small" data-act="addAns" ${q.answers.length >= 8 ? 'disabled' : ''}>Add answer</button><span>${q.answers.length} answers, ${total} points total</span></div>`;
+        const ta = card.querySelector('textarea');
+        ta.value = q.question;
+        ta.addEventListener('input', () => { q.question = ta.value; markDirty(); });
+        const box = card.querySelector('.answers');
+        q.answers.forEach((a, ai) => {
+          const row = document.createElement('div');
+          row.className = 'ans';
+          row.innerHTML = `<span class="i">${ai + 1}</span><input type="text" maxlength="40" placeholder="Answer" aria-label="Answer ${ai + 1}"><input type="number" min="0" max="999" aria-label="Points for answer ${ai + 1}"><button class="btn small danger" aria-label="Remove answer ${ai + 1}">Remove</button>`;
+          const [t, p] = row.querySelectorAll('input');
+          t.value = a.text;
+          p.value = a.points;
+          t.addEventListener('input', () => { a.text = t.value; markDirty(); });
+          p.addEventListener('input', () => { a.points = Number(p.value) || 0; markDirty(); });
+          row.querySelector('button').addEventListener('click', () => { q.answers.splice(ai, 1); markDirty(); render(); });
+          box.appendChild(row);
+        });
+        card.addEventListener('click', (e) => {
+          const act = e.target.dataset && e.target.dataset.act;
+          if (!act) return;
+          if (act === 'up') [data[qi - 1], data[qi]] = [data[qi], data[qi - 1]];
+          if (act === 'down') [data[qi + 1], data[qi]] = [data[qi], data[qi + 1]];
+          if (act === 'del') { if (!confirm(`Delete "${q.question || 'this question'}"?`)) return; data.splice(qi, 1); }
+          if (act === 'addAns') q.answers.push({ text: '', points: 0 });
+          markDirty();
+          render();
+        });
+        list.appendChild(card);
+      });
+    }
+
+    function addQuestion() {
+      data.push({ question: '', answers: [{ text: '', points: 0 }, { text: '', points: 0 }, { text: '', points: 0 }, { text: '', points: 0 }] });
+      markDirty();
+      render();
+      const last = $('list').lastElementChild;
+      last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      last.querySelector('textarea').focus();
+    }
+    $('add').addEventListener('click', addQuestion);
+    $('addBottom').addEventListener('click', addQuestion);
+
+    $('save').addEventListener('click', async () => {
+      // Blank answer rows are dropped rather than rejected.
+      const payload = data.map((q) => ({ ...q, answers: q.answers.filter((a) => String(a.text).trim()) }));
+      setStatus('Saving...');
+      const res = await fetch('/api/questions', { method: 'PUT', headers: { 'content-type': 'application/json', 'x-pin': pin() }, body: JSON.stringify(payload) });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) { setStatus(body.error || 'Could not save.', 'bad'); return; }
+      data = body.questions;
+      dirty = false;
+      $('save').disabled = true;
+      render();
+      setStatus(`Saved ${body.count} questions`, 'good');
+    });
+
+    $('pinForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      try { localStorage.setItem(PIN_KEY, $('pin').value.trim()); } catch (_) {}
+      load().then(() => { $('pinErr').hidden = $('lock').hidden; });
+    });
+
+    window.addEventListener('beforeunload', (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+    load().catch(() => setStatus('Could not reach the game server.', 'bad'));
+  })();
+  </script>
+</body>
+</html>

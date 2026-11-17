@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hive Mind: big screen</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/host.css">
+</head>
+<body>
+  <div class="stage" id="stage">
+    <header class="top">
+      <div class="brand">
+        <svg class="hex-logo" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 90,27 90,73 50,96 10,73 10,27" fill="#ffb321"/><polygon points="50,30 67,40 67,60 50,70 33,60 33,40" fill="#120b26"/></svg>
+        <span class="wordmark">Hive <b>Mind</b></span>
+      </div>
+      <div class="round-chip">
+        <span id="qnum">Question 1</span>
+        <span id="mult" class="mult" hidden></span>
+      </div>
+      <div class="top-right">
+        <span class="conn" id="conn" title="Connection"></span>
+      </div>
+    </header>
+
+    <section class="question">
+      <p id="qtext">Loading the hive...</p>
+    </section>
+
+    <section class="middle">
+      <div class="side left">
+        <div class="pot" id="potBox">
+          <span class="pot-label">Pot</span>
+          <span class="pot-value" id="pot">0</span>
+          <span class="pot-note" id="potNote"></span>
+        </div>
+        <div class="strikes" id="strikes" aria-label="Strikes">
+          <span class="slot"></span><span class="slot"></span><span class="slot"></span>
+        </div>
+      </div>
+      <div class="board" id="board"></div>
+      <div class="side right">
+        <div class="join" id="join" hidden>
+          <div class="join-title">Grab the remote</div>
+          <div class="qr" id="qr"></div>
+          <button class="join-url" id="joinUrl" title="Click to try another network address"></button>
+          <div class="join-hint" id="joinHint">Same Wi-Fi as this screen</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="teams" id="teams"></footer>
+
+    <div class="banner" id="banner" aria-live="polite"></div>
+    <div class="bigx" id="bigx" aria-hidden="true"></div>
+    <div class="final" id="final" hidden></div>
+    <div class="help" id="help" hidden>
+      <h2>Keyboard shortcuts (this laptop only)</h2>
+      <dl>
+        <dt>1 to 8</dt><dd>Reveal that answer</dd>
+        <dt>X</dt><dd>Strike</dd>
+        <dt>A</dt><dd>Reveal all</dd>
+        <dt>Shift + 1, 2, 3</dt><dd>Give the pot to that team</dd>
+        <dt>Left / Right</dt><dd>Previous / next question</dd>
+        <dt>U or Ctrl + Z</dt><dd>Undo</dd>
+        <dt>Q</dt><dd>Show or hide the join code</dd>
+        <dt>S</dt><dd>Final scores on or off</dd>
+        <dt>F</dt><dd>Full screen</dd>
+        <dt>M</dt><dd>Sound on or off</dd>
+        <dt>H</dt><dd>This help</dd>
+      </dl>
+    </div>
+    <button class="sound" id="sound" type="button">Sound is off. Click to turn on</button>
+    <div class="offline" id="offline" hidden>Reconnecting to the game server...</div>
+    <div class="toast" id="toast" hidden></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/sfx.js"></script>
+  <script src="/js/host.js"></script>
+</body>
+</html>

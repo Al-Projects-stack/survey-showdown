@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#120b26">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Hive Mind: remote</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/remote.css">
+</head>
+<body>
+  <div class="sticky">
+  <header class="bar">
+    <div class="brand">
+      <svg class="hex-logo" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 90,27 90,73 50,96 10,73 10,27" fill="#ffb321"/><polygon points="50,30 67,40 67,60 50,70 33,60 33,40" fill="#120b26"/></svg>
+      <span class="wordmark">Hive <b>Mind</b></span>
+      <span class="conn" id="conn"></span>
+    </div>
+    <button class="undo" id="undo" type="button" disabled>Undo</button>
+  </header>
+
+  <section class="strip" id="strip"></section>
+  </div>
+
+  <!-- Locked view: PIN prompt plus a read-only scoreboard -->
+  <main id="locked" class="panel-wrap" hidden>
+    <div class="card">
+      <h2>Remote is locked</h2>
+      <p class="muted">Enter the host PIN to control the game. Without it you can still follow the scores here.</p>
+      <form id="pinForm" class="pin-row">
+        <input id="pinInput" inputmode="numeric" pattern="\d*" maxlength="8" autocomplete="off" placeholder="PIN" aria-label="Host PIN">
+        <button class="btn honey" type="submit">Unlock</button>
+      </form>
+      <p class="error" id="pinError" hidden></p>
+    </div>
+    <div class="card">
+      <div class="q-meta" id="lockedMeta"></div>
+      <p class="q-text" id="lockedQ"></p>
+      <ol class="spectate" id="lockedAnswers"></ol>
+    </div>
+  </main>
+
+  <main id="app" hidden>
+    <!-- PLAY -->
+    <section class="tab" data-tab="play">
+      <div class="card q-card">
+        <div class="q-meta" id="qMeta"></div>
+        <p class="q-text" id="qText"></p>
+        <div class="nav-row">
+          <button class="btn ghost" id="prev" type="button">Prev</button>
+          <button class="btn ghost" id="next" type="button">Next question</button>
+        </div>
+      </div>
+
+      <div class="hint">Tap what the player said to flip it on the big screen.</div>
+      <div class="answers" id="answers"></div>
+
+      <div class="big-row">
+        <button class="btn strike" id="strike" type="button"><span class="x">X</span> Strike</button>
+        <button class="btn ghost" id="revealAll" type="button">Reveal all</button>
+      </div>
+
+      <div class="card">
+        <h3>Who is playing this round?</h3>
+        <div class="seg" id="control"></div>
+      </div>
+
+      <div class="card">
+        <h3>Points this round</h3>
+        <div class="seg" id="mult">
+          <button type="button" data-m="1">Single</button>
+          <button type="button" data-m="2">Double</button>
+          <button type="button" data-m="3">Triple</button>
+        </div>
+      </div>
+
+      <div class="card award-card">
+        <h3 id="awardTitle">Give the pot</h3>
+        <div class="award" id="award"></div>
+        <p class="muted small" id="awardNote"></p>
+      </div>
+
+      <button class="btn link" id="resetRound" type="button">Restart this round</button>
+    </section>
+
+    <!-- SCORES -->
+    <section class="tab" data-tab="scores" hidden>
+      <div class="card">
+        <h3>Adjust scores</h3>
+        <div id="adjust"></div>
+      </div>
+      <div class="card">
+        <h3>Rounds won</h3>
+        <ol class="log" id="log"></ol>
+      </div>
+      <button class="btn honey wide" id="finalBtn" type="button">Show final scores</button>
+    </section>
+
+    <!-- SETUP -->
+    <section class="tab" data-tab="setup" hidden>
+      <div class="card">
+        <h3>Teams</h3>
+        <div class="seg" id="teamCount">
+          <button type="button" data-c="2">2 teams</button>
+          <button type="button" data-c="3">3 teams</button>
+        </div>
+        <div id="names" class="names"></div>
+        <label class="check"><input type="checkbox" id="shuffle"> Shuffle question order on new game</label>
+        <div class="big-row">
+          <button class="btn ghost" id="saveTeams" type="button">Save teams</button>
+          <button class="btn honey" id="newGame" type="button">New game</button>
+        </div>
+        <p class="muted small">Save keeps the scores. New game sets every score to 0 and starts at question 1.</p>
+      </div>
+
+      <div class="card">
+        <h3>Big screen</h3>
+        <label class="check"><input type="checkbox" id="qrToggle"> Show the join QR code</label>
+        <a class="btn ghost wide" href="/" target="_blank" rel="noopener">Open the big screen</a>
+      </div>
+
+      <div class="card">
+        <h3>Jump to a question</h3>
+        <ol class="jump" id="jump"></ol>
+        <a class="btn ghost wide" href="/editor" target="_blank" rel="noopener">Edit questions</a>
+      </div>
+
+      <div class="card">
+        <h3>Lock the remote</h3>
+        <p class="muted small" id="pinStatus"></p>
+        <form id="setPinForm" class="pin-row">
+          <input id="newPin" inputmode="numeric" pattern="\d*" maxlength="8" autocomplete="off" placeholder="4 to 8 digits" aria-label="New PIN">
+          <button class="btn ghost" type="submit">Set PIN</button>
+        </form>
+        <button class="btn link" id="clearPin" type="button" hidden>Remove the PIN</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabs" id="tabs" hidden>
+    <button type="button" data-tab="play" class="on">Play</button>
+    <button type="button" data-tab="scores">Scores</button>
+    <button type="button" data-tab="setup">Setup</button>
+  </nav>
+
+  <div class="toast" id="toast" hidden></div>
+  <div class="offline" id="offline" hidden>Reconnecting...</div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/remote.js"></script>
+</body>
+</html>

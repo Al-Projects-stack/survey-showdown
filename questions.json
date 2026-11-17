@@ -1,0 +1,722 @@
+[
+  {
+    "id": "home-from-work",
+    "question": "Name something people do the moment they get home from work.",
+    "answers": [
+      {
+        "text": "Kick off their shoes",
+        "points": 34
+      },
+      {
+        "text": "Raid the fridge",
+        "points": 22
+      },
+      {
+        "text": "Flop on the couch",
+        "points": 16
+      },
+      {
+        "text": "Change clothes",
+        "points": 12
+      },
+      {
+        "text": "Scroll their phone",
+        "points": 9
+      },
+      {
+        "text": "Feed the pet",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "late-on-purpose",
+    "question": "Name a reason you might arrive late to a party on purpose.",
+    "answers": [
+      {
+        "text": "Don't want to be first",
+        "points": 38
+      },
+      {
+        "text": "Outfit crisis",
+        "points": 21
+      },
+      {
+        "text": "Stopped for snacks or drinks",
+        "points": 14
+      },
+      {
+        "text": "Nap ran long",
+        "points": 11
+      },
+      {
+        "text": "Avoiding someone",
+        "points": 8
+      },
+      {
+        "text": "Fashionably late",
+        "points": 6
+      }
+    ]
+  },
+  {
+    "id": "junk-drawer",
+    "question": "Name something you would find in a junk drawer.",
+    "answers": [
+      {
+        "text": "Batteries",
+        "points": 30
+      },
+      {
+        "text": "Rubber bands",
+        "points": 18
+      },
+      {
+        "text": "Takeaway menus",
+        "points": 15
+      },
+      {
+        "text": "Mystery keys",
+        "points": 13
+      },
+      {
+        "text": "Pens that don't work",
+        "points": 10
+      },
+      {
+        "text": "Sticky tape",
+        "points": 8
+      },
+      {
+        "text": "Birthday candles",
+        "points": 4
+      }
+    ]
+  },
+  {
+    "id": "pretend-skills",
+    "question": "Name something people pretend they know how to do.",
+    "answers": [
+      {
+        "text": "Cook",
+        "points": 27
+      },
+      {
+        "text": "Dance",
+        "points": 22
+      },
+      {
+        "text": "Fix things around the house",
+        "points": 17
+      },
+      {
+        "text": "Speak another language",
+        "points": 14
+      },
+      {
+        "text": "Play golf",
+        "points": 9
+      },
+      {
+        "text": "Taste wine",
+        "points": 7
+      }
+    ]
+  },
+  {
+    "id": "road-trip",
+    "question": "Name something you can't leave home without on a road trip.",
+    "answers": [
+      {
+        "text": "Snacks",
+        "points": 36
+      },
+      {
+        "text": "A good playlist",
+        "points": 21
+      },
+      {
+        "text": "Phone charger",
+        "points": 16
+      },
+      {
+        "text": "Pillow",
+        "points": 11
+      },
+      {
+        "text": "Sunglasses",
+        "points": 8
+      },
+      {
+        "text": "Map or GPS",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "better-next-day",
+    "question": "Name a food that tastes even better the next day.",
+    "answers": [
+      {
+        "text": "Pizza",
+        "points": 41
+      },
+      {
+        "text": "Curry",
+        "points": 22
+      },
+      {
+        "text": "Lasagne",
+        "points": 14
+      },
+      {
+        "text": "Soup or stew",
+        "points": 10
+      },
+      {
+        "text": "Chilli",
+        "points": 7
+      },
+      {
+        "text": "Fried rice",
+        "points": 4
+      }
+    ]
+  },
+  {
+    "id": "always-losing",
+    "question": "Name something people lose all the time.",
+    "answers": [
+      {
+        "text": "Keys",
+        "points": 40
+      },
+      {
+        "text": "Phone",
+        "points": 20
+      },
+      {
+        "text": "Sunglasses",
+        "points": 12
+      },
+      {
+        "text": "TV remote",
+        "points": 11
+      },
+      {
+        "text": "Socks",
+        "points": 9
+      },
+      {
+        "text": "Wallet",
+        "points": 6
+      }
+    ]
+  },
+  {
+    "id": "kid-dream-job",
+    "question": "Name a job kids say they want when they grow up.",
+    "answers": [
+      {
+        "text": "Doctor",
+        "points": 26
+      },
+      {
+        "text": "Astronaut",
+        "points": 20
+      },
+      {
+        "text": "Soccer player",
+        "points": 18
+      },
+      {
+        "text": "Firefighter",
+        "points": 14
+      },
+      {
+        "text": "Teacher",
+        "points": 10
+      },
+      {
+        "text": "YouTuber",
+        "points": 8
+      }
+    ]
+  },
+  {
+    "id": "pilot-says",
+    "question": "Name something you would hate to hear your pilot say.",
+    "answers": [
+      {
+        "text": "Oops",
+        "points": 35
+      },
+      {
+        "text": "Brace yourselves",
+        "points": 23
+      },
+      {
+        "text": "Can anyone fly a plane?",
+        "points": 15
+      },
+      {
+        "text": "We're low on fuel",
+        "points": 12
+      },
+      {
+        "text": "It's my first time",
+        "points": 9
+      },
+      {
+        "text": "Hold my drink",
+        "points": 4
+      }
+    ]
+  },
+  {
+    "id": "wake-at-night",
+    "question": "Name a reason someone wakes up in the middle of the night.",
+    "answers": [
+      {
+        "text": "Bathroom trip",
+        "points": 44
+      },
+      {
+        "text": "Thirsty",
+        "points": 18
+      },
+      {
+        "text": "A strange noise",
+        "points": 14
+      },
+      {
+        "text": "Bad dream",
+        "points": 11
+      },
+      {
+        "text": "Too hot",
+        "points": 7
+      },
+      {
+        "text": "Kid or pet",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "always-sticky",
+    "question": "Name something that is always sticky.",
+    "answers": [
+      {
+        "text": "Honey",
+        "points": 33
+      },
+      {
+        "text": "Tape",
+        "points": 21
+      },
+      {
+        "text": "Syrup",
+        "points": 17
+      },
+      {
+        "text": "Glue",
+        "points": 13
+      },
+      {
+        "text": "Candy floss",
+        "points": 9
+      },
+      {
+        "text": "The cinema floor",
+        "points": 6
+      }
+    ]
+  },
+  {
+    "id": "be-quiet",
+    "question": "Name a place where you are expected to be quiet.",
+    "answers": [
+      {
+        "text": "Library",
+        "points": 47
+      },
+      {
+        "text": "Church",
+        "points": 18
+      },
+      {
+        "text": "Hospital",
+        "points": 12
+      },
+      {
+        "text": "Cinema",
+        "points": 9
+      },
+      {
+        "text": "Exam room",
+        "points": 8
+      },
+      {
+        "text": "Funeral",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "bring-to-braai",
+    "question": "Name something guests bring to a braai.",
+    "answers": [
+      {
+        "text": "Meat",
+        "points": 40
+      },
+      {
+        "text": "Drinks",
+        "points": 25
+      },
+      {
+        "text": "A salad",
+        "points": 13
+      },
+      {
+        "text": "Chips",
+        "points": 9
+      },
+      {
+        "text": "Charcoal or wood",
+        "points": 7
+      },
+      {
+        "text": "A speaker",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "lottery-first",
+    "question": "Name the first thing you would do if you won the lottery.",
+    "answers": [
+      {
+        "text": "Quit my job",
+        "points": 38
+      },
+      {
+        "text": "Buy a house",
+        "points": 24
+      },
+      {
+        "text": "Travel the world",
+        "points": 16
+      },
+      {
+        "text": "Pay off debt",
+        "points": 10
+      },
+      {
+        "text": "Buy a new car",
+        "points": 7
+      },
+      {
+        "text": "Spoil my family",
+        "points": 4
+      }
+    ]
+  },
+  {
+    "id": "ignore-text",
+    "question": "Name an excuse for not replying to a text.",
+    "answers": [
+      {
+        "text": "Didn't see it",
+        "points": 39
+      },
+      {
+        "text": "Phone died",
+        "points": 22
+      },
+      {
+        "text": "Was busy",
+        "points": 15
+      },
+      {
+        "text": "Fell asleep",
+        "points": 11
+      },
+      {
+        "text": "Forgot",
+        "points": 8
+      },
+      {
+        "text": "No signal",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "monday-morning",
+    "question": "Name something you think of when you hear 'Monday morning'.",
+    "answers": [
+      {
+        "text": "Coffee",
+        "points": 42
+      },
+      {
+        "text": "Traffic",
+        "points": 17
+      },
+      {
+        "text": "Alarm clock",
+        "points": 14
+      },
+      {
+        "text": "Meetings",
+        "points": 12
+      },
+      {
+        "text": "Being tired",
+        "points": 10
+      },
+      {
+        "text": "Grumpy people",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "worst-roommate",
+    "question": "Name an animal you would not want as a roommate.",
+    "answers": [
+      {
+        "text": "Skunk",
+        "points": 30
+      },
+      {
+        "text": "Snake",
+        "points": 25
+      },
+      {
+        "text": "Gorilla",
+        "points": 14
+      },
+      {
+        "text": "Bear",
+        "points": 12
+      },
+      {
+        "text": "Pig",
+        "points": 10
+      },
+      {
+        "text": "Baboon",
+        "points": 9
+      }
+    ]
+  },
+  {
+    "id": "first-date",
+    "question": "Name something people do on a first date to impress.",
+    "answers": [
+      {
+        "text": "Dress up",
+        "points": 31
+      },
+      {
+        "text": "Pay the bill",
+        "points": 25
+      },
+      {
+        "text": "Tell jokes",
+        "points": 16
+      },
+      {
+        "text": "Show up on time",
+        "points": 12
+      },
+      {
+        "text": "Wear cologne or perfume",
+        "points": 10
+      },
+      {
+        "text": "Bring flowers",
+        "points": 6
+      }
+    ]
+  },
+  {
+    "id": "lots-of-buttons",
+    "question": "Name something that has a lot of buttons.",
+    "answers": [
+      {
+        "text": "TV remote",
+        "points": 38
+      },
+      {
+        "text": "Keyboard",
+        "points": 22
+      },
+      {
+        "text": "Shirt",
+        "points": 13
+      },
+      {
+        "text": "Calculator",
+        "points": 11
+      },
+      {
+        "text": "Game controller",
+        "points": 9
+      },
+      {
+        "text": "Lift panel",
+        "points": 7
+      }
+    ]
+  },
+  {
+    "id": "group-chat-silent",
+    "question": "Name a reason a group chat suddenly goes silent.",
+    "answers": [
+      {
+        "text": "Someone asked for money",
+        "points": 26
+      },
+      {
+        "text": "An awkward joke",
+        "points": 23
+      },
+      {
+        "text": "Everyone fell asleep",
+        "points": 18
+      },
+      {
+        "text": "Someone overshared",
+        "points": 15
+      },
+      {
+        "text": "Plans needed booking",
+        "points": 10
+      },
+      {
+        "text": "A 5 minute voice note",
+        "points": 8
+      }
+    ]
+  },
+  {
+    "id": "kids-party",
+    "question": "Name something you would see at a kid's birthday party.",
+    "answers": [
+      {
+        "text": "Cake",
+        "points": 40
+      },
+      {
+        "text": "Balloons",
+        "points": 24
+      },
+      {
+        "text": "Party packs",
+        "points": 13
+      },
+      {
+        "text": "Jumping castle",
+        "points": 11
+      },
+      {
+        "text": "Magician or clown",
+        "points": 7
+      },
+      {
+        "text": "A crying child",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "sing-in",
+    "question": "Name a place people love to sing.",
+    "answers": [
+      {
+        "text": "In the shower",
+        "points": 52
+      },
+      {
+        "text": "In the car",
+        "points": 25
+      },
+      {
+        "text": "Karaoke",
+        "points": 12
+      },
+      {
+        "text": "Church",
+        "points": 6
+      },
+      {
+        "text": "In the kitchen",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "fruit-salad",
+    "question": "Name a fruit you would find in a fruit salad.",
+    "answers": [
+      {
+        "text": "Apple",
+        "points": 26
+      },
+      {
+        "text": "Banana",
+        "points": 20
+      },
+      {
+        "text": "Grapes",
+        "points": 15
+      },
+      {
+        "text": "Orange",
+        "points": 11
+      },
+      {
+        "text": "Strawberry",
+        "points": 9
+      },
+      {
+        "text": "Pineapple",
+        "points": 8
+      },
+      {
+        "text": "Melon",
+        "points": 6
+      },
+      {
+        "text": "Kiwi",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "on-toast",
+    "question": "Name something you spread on toast.",
+    "answers": [
+      {
+        "text": "Butter",
+        "points": 45
+      },
+      {
+        "text": "Jam",
+        "points": 25
+      },
+      {
+        "text": "Peanut butter",
+        "points": 18
+      },
+      {
+        "text": "Avocado",
+        "points": 12
+      }
+    ]
+  }
+]
