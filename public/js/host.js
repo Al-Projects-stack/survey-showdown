@@ -87,11 +87,8 @@
       }
       requestAnimationFrame(() => requestAnimationFrame(() => board.classList.remove('instant')));
     }
-    const fx = view.fx;
-    const stagger = fx && fx.type === 'revealAll' && fx.seq === lastSeq ? fx.indexes : [];
     v.answers.forEach((a, i) => {
       const tile = board.children[i];
-      const inner = tile.querySelector('.inner');
       if (a.revealed) {
         const ans = tile.querySelector('.ans');
         ans.textContent = a.text;
@@ -99,8 +96,6 @@
         ans.style.fontSize = len > 22 ? 'calc(var(--u) * 2.3)' : len > 15 ? 'calc(var(--u) * 2.7)' : '';
         tile.querySelector('.pts').textContent = a.points;
       }
-      const k = stagger.indexOf(i);
-      inner.style.transitionDelay = k >= 0 ? `${k * 220}ms` : '';
       tile.classList.toggle('revealed', a.revealed);
       tile.classList.toggle('shown', a.revealed && !a.earned);
     });
@@ -278,9 +273,6 @@
         Sfx.play(earned ? 'reveal' : 'shown');
         break;
       }
-      case 'revealAll':
-        fx.indexes.forEach((_, k) => setTimeout(() => Sfx.play('shown'), k * 220 + 200));
-        break;
       case 'strike':
         showX(fx.count);
         Sfx.play('strike');
@@ -515,7 +507,7 @@
         break;
       case 'i': send('setIntro', { on: !view.intro }); break;
       case 'x': send('strike'); break;
-      case 'a': send('revealAll'); break;
+      case 'a': send('revealNext'); break;
       case 'arrowright': send('next'); break;
       case 'arrowleft': send('prev'); break;
       case 'u': send('undo'); break;

@@ -110,7 +110,9 @@
       </button>`).join('');
 
     $('strike').innerHTML = `<span class="x">X</span> Strike${r.strikes ? ` (${r.strikes} of 3)` : ''}`;
-    $('revealAll').disabled = r.allRevealed;
+    const nextHidden = v.answers.findIndex((a) => !a.revealed);
+    $('revealNext').disabled = nextHidden < 0;
+    $('revealNext').textContent = nextHidden < 0 ? 'All revealed' : `Reveal next (#${nextHidden + 1})`;
 
     $('control').innerHTML = v.teams.map((t, i) => `<button type="button" class="t${i}${r.control === i ? ' on' : ''}" data-team="${i}">${esc(t.name)}</button>`).join('');
 
@@ -124,7 +126,7 @@
       card.classList.add('done');
       $('awardTitle').textContent = 'Pot awarded';
       $('award').innerHTML = `<div class="btn t${r.awardedTo}" style="cursor:default"><span>${esc(v.teams[r.awardedTo] ? v.teams[r.awardedTo].name : 'Team')}</span><span class="pts">+${r.awardedPoints}</span></div>`;
-      $('awardNote').textContent = r.allRevealed ? 'All answers are showing. On to the next question.' : 'Reveal the rest with Reveal all, then go to the next question. Use Undo to change who got it.';
+      $('awardNote').textContent = r.allRevealed ? 'All answers are showing. On to the next question.' : 'Tap Reveal next to show the answers nobody got, one at a time, then go to the next question. Use Undo to change who got it.';
     } else {
       card.classList.remove('done');
       $('awardTitle').textContent = r.steal ? 'Steal: who gets the pot?' : 'Give the pot';
@@ -198,7 +200,7 @@
     send('reveal', { index: i });
   });
   $('strike').addEventListener('click', () => send('strike'));
-  $('revealAll').addEventListener('click', () => send('revealAll'));
+  $('revealNext').addEventListener('click', () => send('revealNext'));
   $('undo').addEventListener('click', () => send('undo'));
   $('prev').addEventListener('click', () => send('prev'));
   $('next').addEventListener('click', () => {
@@ -245,7 +247,7 @@
   });
   $('newGame').addEventListener('click', () => {
     if (!confirm(`Start a new game with ${setupCount} teams? All scores go back to 0.`)) return;
-    send('newGame', { count: setupCount, names: teamNames(), shuffle: $('shuffle').checked });
+    send('newGame', { count: setupCount, names: teamNames() });
     setupDirty = false;
     document.activeElement && document.activeElement.blur();
     showTab('play');

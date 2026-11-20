@@ -98,9 +98,50 @@ function cleanName(name, i) {
   return s || DEFAULT_NAMES[i];
 }
 
-function freshGame({ count = 2, names = [], shuffleOrder = false } = {}) {
-  const order = questions.map((q) => q.id);
-  if (shuffleOrder) shuffle(order);
+// Spread the hard questions evenly through the running order so a game never
+// opens with three brain busters in a row.
+function spreadHard(order) {
+  const byId = questionById();
+  const hard = order.filter((id) => byId.get(id) && byId.get(id).hard);
+  const easy = order.filter((id) => !(byId.get(id) && byId.get(id).hard));
+  if (!hard.length || !easy.length) return order;
+  const out = [];
+  let h = 0;
+  for (let i = 0; i < order.length; i++) {
+    // Place a hard one whenever the hard share so far falls behind its target.
+    const want = Math.floor(((i + 1) * hard.length) / order.length);
+    if (h < want && h < hard.length) out.push(hard[h++]);
+    else if (out.length - h < easy.length) out.push(easy[out.length - h]);
+    else out.push(hard[h++]);
+  }
+  return out;
+}
+
+// Every new game gets a new random order. Questions not played in earlier
+// games come first, so the same ones do not keep coming back.
+function newOrder() {
+  const ids = questions.map((q) => q.id);
+  const seen = new Set(settings.seen.filter((id) => ids.includes(id)));
+  if (seen.size >= ids.length) seen.clear(); // played them all: start over
+  const fresh = shuffle(ids.filter((id) => !seen.has(id)));
+  const old = shuffle(ids.filter((id) => seen.has(id)));
+  // Spread hard ones within each group so the fresh-first rule still holds.
+  return [...spreadHard(fresh), ...spreadHard(old)];
+}
+
+// Remember which questions this game actually used before it is replaced.
+function rememberPlayed() {
+  const used = new Set(Object.keys(game.rounds || {}));
+  if (!game.intro || game.pos > 0) game.order.slice(0, game.pos + 1).forEach((id) => used.add(id));
+  if (!used.size) return;
+  const ids = new Set(questions.map((q) => q.id));
+  const seen = new Set(settings.seen.filter((id) => ids.has(id)));
+  used.forEach((id) => seen.add(id));
+  settings.seen = seen.size >= ids.size ? [...used] : [...seen];
+}
+
+function freshGame({ count = 2, names = [], ordered = false } = {}) {
+  const order = ordered ? questions.map((q) => q.id) : newOrder();
   return {
     teamCount: count === 3 ? 3 : 2,
     teams: [0, 1, 2].map((i) => ({ name: cleanName(names[i], i), score: 0 })),
@@ -114,10 +155,10 @@ function freshGame({ count = 2, names = [], shuffleOrder = false } = {}) {
   };
 }
 
-let game = freshGame();
+let settings = { pin: '', seen: [] };
+let game = freshGame({ ordered: true });
 let undoStack = [];
 let fxSeq = 0;
-let settings = { pin: '' };
 
 function blankRound(q) {
   return {
@@ -194,11 +235,16 @@ function loadState() {
     if (saved && saved.game) game = saved.game;
     if (Array.isArray(saved.undoStack)) undoStack = saved.undoStack.slice(-MAX_UNDO);
     fxSeq = Number(saved.fxSeq) || 0;
-    if (saved.settings) settings = { pin: String(saved.settings.pin || '') };
+    if (saved.settings) {
+      settings = {
+        pin: String(saved.settings.pin || ''),
+        seen: Array.isArray(saved.settings.seen) ? saved.settings.seen.map(String) : [],
+      };
+    }
     console.log('  Restored the saved game from data/state.json');
   } catch (err) {
     console.error('  Saved game could not be read, starting fresh:', err.message);
-    game = freshGame();
+    game = freshGame({ ordered: true });
   }
 }
 loadState();
@@ -231,13 +277,15 @@ const ACTIONS = {
     r.revealed[i] = 0;
     return { type: 'hide', index: i };
   },
-  revealAll() {
+  // Show the next answer nobody guessed, top of the board first, one per tap.
+  // These are shown only: they never add to the pot.
+  revealNext() {
     const q = currentQuestion();
     const r = roundFor(q, true);
-    const hidden = r.revealed.map((v, i) => (v ? -1 : i)).filter((i) => i >= 0);
-    if (!hidden.length) return null;
-    for (const i of hidden) r.revealed[i] = 2;
-    return { type: 'revealAll', indexes: hidden };
+    const i = r.revealed.findIndex((v) => !v);
+    if (i < 0) return null;
+    r.revealed[i] = 2;
+    return { type: 'reveal', index: i };
   },
   strike() {
     const r = roundFor(currentQuestion(), true);
@@ -325,9 +373,10 @@ const ACTIONS = {
     for (const r of Object.values(game.rounds)) if (r.control !== null && r.control >= c) r.control = null;
     return { type: 'teams' };
   },
-  newGame({ count, names, shuffle: shuffleOrder }) {
+  newGame({ count, names }) {
     const list = Array.isArray(names) ? names : game.teams.map((t) => t.name);
-    game = freshGame({ count: Number(count) === 3 ? 3 : 2, names: list, shuffleOrder: !!shuffleOrder });
+    rememberPlayed();
+    game = freshGame({ count: Number(count) === 3 ? 3 : 2, names: list });
     return { type: 'newGame' };
   },
   toggleQr({ on }) {

@@ -69,7 +69,7 @@
 
       <div class="big-row">
         <button class="btn strike" id="strike" type="button"><span class="x">X</span> Strike</button>
-        <button class="btn ghost" id="revealAll" type="button">Reveal all</button>
+        <button class="btn ghost" id="revealNext" type="button">Reveal next</button>
       </div>
 
       <div class="card">
@@ -117,12 +117,11 @@
           <button type="button" data-c="3">3 teams</button>
         </div>
         <div id="names" class="names"></div>
-        <label class="check"><input type="checkbox" id="shuffle"> Shuffle question order on new game</label>
         <div class="big-row">
           <button class="btn ghost" id="saveTeams" type="button">Save teams</button>
           <button class="btn primary" id="newGame" type="button">New game</button>
         </div>
-        <p class="muted small">Save keeps the scores. New game sets every score to 0 and starts at question 1.</p>
+        <p class="muted small">Save keeps the scores. New game sets every score to 0 and deals a new random set of questions, starting with ones you have not played yet.</p>
       </div>
 
       <div class="card">

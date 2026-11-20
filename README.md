@@ -69,7 +69,7 @@ The remote shows you every answer and its points. The big screen keeps them hidd
 2. Each time someone names an answer on the board, tap it on the remote. It flips on the big screen and its points go into the **pot**.
 3. A wrong answer? Tap **Strike**. Three strikes and the board flashes **Steal chance** for the other team(s).
 4. Give the pot to whoever won the round: the playing team if they cleared the board, or the stealing team if their steal answer was on the board (reveal it first so its points join the pot).
-5. Tap **Reveal all** to show what nobody guessed (those answers show in a paler colour and earn no points), then **Next question**.
+5. Tap **Reveal next** to show what nobody guessed, one answer per tap from the top of the board down, so you can build suspense. Those answers show in a paler colour and earn no points. Then **Next question**.
 
 Rounds can be worth **Single**, **Double** or **Triple** points. Pick it before you award the pot (a nice way to raise the stakes for the last few questions).
 
@@ -94,7 +94,7 @@ Press **H** on the big screen to see these.
 | I | Intro screen on or off |
 | 1 to 8 | Reveal that answer |
 | X | Strike |
-| A | Reveal all |
+| A | Reveal the next answer nobody got |
 | Shift + 1, 2, 3 | Give the pot to team 1, 2 or 3 |
 | Left / Right arrows | Previous / next question |
 | U or Ctrl + Z | Undo |
@@ -107,7 +107,7 @@ The laptop running the server is always trusted, even when a PIN is set. To make
 
 ## Questions
 
-The questions live in `questions.json`. There are 36 to start with: 24 regular ones and 12 **hard** ones, mixed in so every third question is a hard one. Hard questions have eight answers with the points spread thin, so the obvious guesses only score a little. The big screen gives them a **Brain buster** badge and the remote marks them **Hard**. Edit them in the browser at `http://localhost:4000/editor` (changes go live straight away), or edit the file by hand while the server is stopped:
+The questions live in `questions.json`. There are 36 to start with: 24 regular ones and 12 **hard** ones. Hard questions have eight answers with the points spread thin, so the obvious guesses only score a little. The big screen gives them a **Brain buster** badge and the remote marks them **Hard**. Edit them in the browser at `http://localhost:4000/editor` (changes go live straight away), or edit the file by hand while the server is stopped:
 
 ```json
 {
@@ -124,7 +124,7 @@ The questions live in `questions.json`. There are 36 to start with: 24 regular o
 * 1 to 8 answers per question. Points are "how many out of 100 said this" and the board sorts them highest first.
 * Add `"hard": true` to a question (or tick **Hard question** in the editor) to mark it as a brain buster.
 * The `id` field is optional. The server adds one if it is missing and uses it to remember each round's progress.
-* **Setup > Shuffle question order** gives a different running order for each new game.
+* Every **New game** deals the questions in a new random order. Questions you have not played in earlier games come first, so you do not see the same ones again until you have been through them all. Hard ones are spread out so roughly every third question is one.
 
 ## Saved game
 
